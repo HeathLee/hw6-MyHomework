@@ -11,4 +11,4 @@ based on http://code.tutsplus.com/tutorials/authenticating-nodejs-applications-w
 ---new---
 如何运行应用：
 1. 上面的步骤都要执行
-2. 一开始假设没有任何数据，所以要自己注册账号、发布作业，然后才能进行其他项目
+2. 一开始假设没有任何数据（清空原有的数据库），然后自己注册账号、发布作业，然后才能进行其他项目
