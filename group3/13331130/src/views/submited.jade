@@ -1,0 +1,32 @@
+extends common
+
+block content
+  #container.center-block
+    h1 Homework Mange System
+    |         
+    .panel.panel-default
+      .panel-heading
+        h2.panel-title
+          | Submited Files
+      |             
+      .panel-body
+        .list-group
+          if true
+            each file in hw.submited
+              .list-group-item
+                a.input-group-addon(href="/#{file.path}") #{file.uploader}
+                form.form-inline(action="/score/#{file.uploaderid}/#{hw._id}", method='post')
+                  .form-group  
+                      .input-group
+                        .input-group-addon Score
+                        |       
+                        -var now = new Date(), dl = new Date(hw.deadLine)
+                        if dl.getTime() < now.getTime()
+                          input#exampleInputAmount.form-control(type='text', placeholder='0 <= Score <= 100', name='score', required)
+                        else
+                          input#exampleInputAmount.form-control(type='text', placeholder='0 <= Score <= 100', name='score', disabled, required)
+                        |       
+                  |   
+                  input.btn.btn-primary(type='submit', value='Confirm') 
+          |  
+          a.btn.btn-default.center-block(role="button", href="/home") Back

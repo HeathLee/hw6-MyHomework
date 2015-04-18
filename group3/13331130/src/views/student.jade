@@ -1,0 +1,43 @@
+extends common
+
+block content
+  #container.center-block
+    h1 Homework Mange System
+    |         
+    .panel.panel-default
+      .panel-heading
+        h2.panel-title
+          | Student
+      |             
+      .panel-body
+        .list-group
+          if homework
+            for hw in homework
+              a.list-group-item
+                .input-group-addon #{hw.homeworkName}
+                span.deadline Deadline: #{hw.deadLine}
+                -var now = new Date(), dl = new Date(hw.deadLine)
+                if dl.getTime() < now.getTime()
+                  button.btn.btn-primary.btn-sm.modify-button(type='button', data-toggle='modal', data-target='##{hw._id}', disabled)
+                    | Upload
+                else
+                  button.btn.btn-primary.btn-sm.modify-button(type='button', data-toggle='modal', data-target='##{hw._id}')
+                    | Upload
+                |                         
+                .modal.fade(tabindex='-1', id="#{hw._id}", role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+                  .modal-dialog
+                    .modal-content
+                      form(method="post", enctype="multipart/form-data" action="/upload/#{hw._id}")
+                        .modal-header
+                          button.close(type='button', data-dismiss='modal', aria-label='Close')
+                            span(aria-hidden='true') &times;
+                          |                                     
+                          h4#myModalLabel.modal-title Upload Homework
+                        |                                     
+                        .modal-body
+                          input(type='file', name="upfile")
+                        |                                     
+                        .modal-footer
+                          button.btn.btn-default(type='button', data-dismiss='modal') Close
+                          |                                         
+                          input.btn.btn-primary(type='submit' value="Confirm")

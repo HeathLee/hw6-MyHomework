@@ -1,0 +1,29 @@
+extends common
+
+block content
+  #container.center-block
+    h1 Homework Mange System
+    |       
+    .panel.panel-default
+      .panel-heading
+        h2.panel-title
+          | Modify Homework
+      .panel-body
+        form(action='/modify/#{hw._id}', method='POST')
+          .form-group
+            .input-group
+              span.input-group-addon Job Name
+              |         
+              input.form-control(type='text', value='#{hw.homeworkName}', name='homework-name')
+          .form-group
+            .input-group
+              span.input-group-addon Job Content
+              |                                         
+              input.form-control(type='text', placeholder="", name='content')
+          .form-group
+            .input-group
+              span.input-group-addon Job Deadline
+              |                                         
+              input.form-control(type='date',  value="Example:2015--04-02", name='deadline')
+          .modal-footer                     
+              button.btn.btn-primary(type='submit') Submit

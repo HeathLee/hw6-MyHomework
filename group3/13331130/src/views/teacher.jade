@@ -1,0 +1,57 @@
+extends common
+
+block content
+  #container.center-block
+    h1 Homework Mange System
+    |         
+    .panel.panel-default
+      .panel-heading
+        h2.panel-title
+          | Teacher
+      |             
+      .panel-body
+        .list-group
+          if homework
+            each hw in homework
+              li.list-group-item
+                a.input-group-addon(href="/submited/#{hw._id}") #{hw.homeworkName}
+                span.deadline Deadline: #{hw.deadLine}
+                a.modify-button(role="button" href="/modify/#{hw._id}")
+                  | Modify
+      |             
+      button.btn.btn-primary.btn-lg.center-block.add-homework(type='button', data-toggle='modal', data-target='#myModal')
+        | Add New Homework
+      |             
+      #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+        .modal-dialog
+          .modal-content
+            .modal-header
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') &times;
+              |                         
+              h4#myModalLabel.modal-title Add New Homework
+            |                         
+            .modal-body
+              form(action='/homework', method='POST')
+                .form-group
+                  .input-group
+                    span.input-group-addon Job Name
+                    |                                         
+                    input.form-control(type='text', placeholder='Enter Homework Name', name='homework-name')
+                |                                 
+                .form-group
+                  .input-group
+                    span.input-group-addon Job Content
+                    |                                         
+                    input.form-control(type='text', placeholder='Enter Homework Content', name='content')
+                |                                 
+                .form-group
+                  .input-group
+                    span.input-group-addon Job Deadline
+                    |                                         
+                    input.form-control(type='date', name='deadline')
+                |                                 
+                .modal-footer
+                  button.btn.btn-default(type='button', data-dismiss='modal') Close
+                  |                                     
+                  button.btn.btn-primary(type='submit') Submit

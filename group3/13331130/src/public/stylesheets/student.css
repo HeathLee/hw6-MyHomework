@@ -1,0 +1,25 @@
+body {
+	background-color: rgba(39, 40, 34, 0.3);
+}
+.center-block {
+	width: 50%;
+}
+
+h1 {
+	text-align: center;
+}
+
+.modify-button {
+	float: right;
+	padding-top: 5px;
+}
+
+.deadline {
+	display: inline-block;
+	color: red;
+	padding-top: 5px;
+}
+
+.add-homework {
+	margin-bottom: 25px;
+}
