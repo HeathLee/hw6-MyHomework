@@ -1,0 +1,89 @@
+extends layout
+
+block content
+	div.container
+		div.row
+			div.col-sm-10.col-md-10.col-md-offset-1.col-xs-10
+				h1.text-center.text-primary welcome back! 
+					div.start-wall
+						h3.text-right
+							span.label.label-primary teacher
+						h3.text-primary.text-right #{user.firstName} #{user.lastName},how can i help you?
+						br
+						
+
+						h4.text-left.black the homework i published
+						table.table.table-hover.homework
+							tr
+								th title
+								th deadline
+								th content
+								th operation
+							each publish in publishs
+								tr
+									td #{publish.title}
+									td #{publish.deadline}
+									td 
+										button.btn-lg.btn.btn-info(data-toggle='modal' data-target='##{publish._id}') detail
+										div.modal.fade(id='#{publish._id}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+											div.modal-dialog
+												div.modal-content
+													div.modal-header
+														h3.text-center.text-primary #{publish.title}
+													div.modal-body.publish.center-block.bg-info
+														h4 content
+														p  #{publish.content}
+													div.modal-footer
+														button.btn.btn-warning.btn-margin.btn-lg(data-dismiss='modal') confirm
+									td 
+										if nowtime >= publish.deadline
+											a.btn-lg.btn.btn-warning(href='/grade/?title=#{publish.title}') grade
+											button.btn-lg.btn.btn-success(disable title='cant edit') edit
+										else
+											button.btn-lg.btn.btn-warning(disable title='cant grade') grade
+											button.btn-lg.btn.btn-success(data-toggle='modal' data-target='##{publish.title}') edit
+											div.modal.fade(id='#{publish.title}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+													div.modal-dialog
+														div.modal-content
+															div.modal-header
+																h3.text-center.text-primary publish new homework
+															form(method='POST' action='/edit')
+																div.modal-body.publish.center-block
+																	div.form-group
+																		h4.text-left title
+																		input(style='display:none' type='text', name='newtitle', value='#{publish.title}')
+																		input.form-control(type='text' placeholder='#{publish.title}' readonly)
+																	div.form-group
+																		h4.text-left deadline
+																		input.form-control( name='newdeadline' placeholder='deadline' type='text' size='10')
+																	div.form-group
+																		h4.text-left content
+																		textarea.form-control(name='newcontent' rows='10' placeholder='write dowm your content' required autofocus)
+																div.modal-footer
+																	button.btn.btn-info.btn-margin.btn-lg(type='submit') change
+																
+						br
+						button.btn-lg.btn.btn-success(data-toggle='modal' data-target='#publish') publish new homework
+						div#publish.modal.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+								div.modal-dialog
+									div.modal-content
+										div.modal-header
+											h3.text-center.text-primary publish new homework
+										form(method='POST' action='/publish')
+											div.modal-body.publish.center-block
+												div.form-group
+													h4.text-left title
+													input.form-control(type='text' placeholder='title' name='title')
+												div.form-group
+													h4.text-left deadline
+													input.form-control(todayBtn="true" placeholder='click' type='text' name='deadline' todayHighlight='true' id="datetimepicker" data-date-format="yyyy-mm-dd hh:ii" class='form-control' size='10')
+												div.form-group
+													h4.text-left content
+													textarea.form-control(name='content' rows='10' placeholder='write dowm your content' required autofocus)
+											div.modal-footer
+												button.btn.btn-info.btn-margin.btn-lg(type='submit') publish
+												button.btn.btn-warning.btn-margin.btn-lg(data-dismiss='modal') close
+
+				a.text-center(href="/signout") sign out
+
+

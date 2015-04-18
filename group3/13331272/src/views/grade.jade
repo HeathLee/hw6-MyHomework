@@ -1,0 +1,57 @@
+extends layout
+
+block content
+	div.container
+		div.row
+			div.col-sm-10.col-md-10.col-md-offset-1.col-xs-10
+				h1.text-center.text-primary please grade the homework
+					div.start-wall
+						h3.text-right
+							span.label.label-primary #{title}
+						h3.text-primary.text-right how can i help you?
+						br
+						
+
+						h4.text-left.black the homework i need to grade
+						table.table.table-hover.homework
+							tr
+								th name
+								th submit time
+								th score
+								th content
+								th grade
+							each submission in submissions
+								tr
+									td #{submission.username}
+									td #{submission.submittime}
+									td #{submission.score}
+									td 
+										button.btn-lg.btn.btn-warning(data-toggle='modal' data-target='#detail#{submission.username}') detail
+										div.modal.fade(id='detail#{submission.username}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+											div.modal-dialog
+												div.modal-content
+													div.modal-header
+														h3.text-center.text-primary #{submission.username} 's homework detail
+													div.modal-body.publish.center-block
+															div.form-group
+																h4.text-left content
+																textarea.form-control(name='content' rows='10' placeholder='#{submission.content}' readonly)
+													div.modal-footer
+															button.btn.btn-warning.btn-margin.btn-lg(data-dismiss='modal') close
+									td 
+										button.btn-lg.btn.btn-success(data-toggle='modal' data-target='#grade#{submission.username}') grade
+										div.modal.fade(id='grade#{submission.username}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+											div.modal-dialog
+												div.modal-content
+													div.modal-header
+														h3.text-center.text-primary grade #{submission.username} 's homework
+													form(method='POST' action='/grade')
+														div.modal-body.publish.center-block
+															div.form-group
+																h4.text-left grade
+																input.form-control(name='grade' type='text'  required autofocus)
+																input(style="display:none" name='id' value='#{submission._id}')
+																input(style="display:none"  name='title1' value='#{title}')
+														div.modal-footer
+															button.btn.btn-info.btn-margin.btn-lg(type='submit') grade
+															button.btn.btn-warning.btn-margin.btn-lg(data-dismiss='modal') close
