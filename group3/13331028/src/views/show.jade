@@ -1,0 +1,44 @@
+extends layout
+
+block content
+	div.container
+		div.row
+			div.col-sm-6.col-md-4.col-md-offset-4
+				#user
+					h1.text-center.login-title Welcome #{user.firstName}. Homework is as follows :
+						if hwlist.length == 0
+							if user.identity == 'teacher'
+								p you have not assigned any homework yet
+							else
+								p you have not had any homework yet
+						else
+							each hw, i in hwlist
+								hr
+								div.signup-wall
+									dl.user-details(style="text-align: left")
+										dt [request]
+										dd #{hw.request}
+										dt [deadline]
+										dd #{hw.deadline}
+								if user.identity == 'teacher'
+									a(href='/change?hwid=#{hw._id}', class='text-center new-account') Change Request/Deadline for This Homework
+								else
+									if currentTime <= hw.deadline
+										a(href='/submit?hwid=#{hw._id}', class='text-center new-account') Submit Your Homework
+									else
+										p [you cannot submit hw now]
+								each stuhw, i in hw.stuhwlist
+									dl.user-details(style="text-align: left")
+										dt [homework from]
+										dd #{stuhw.sname}
+										dt [homework content]
+										dd #{stuhw.content}
+										dt [grade]
+										dd #{stuhw.grade}
+									if user.identity == 'teacher'
+										if currentTime > hw.deadline
+											a(href='/mark?hwid=#{stuhw.hwid}&sid=#{stuhw.sid}', class='text-center new-account') Mark This Homework
+										else
+											p [you cannot mark hw now]
+									hr
+						a(href='/home', class='text-center new-account') Back
