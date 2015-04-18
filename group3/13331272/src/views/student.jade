@@ -1,0 +1,90 @@
+extends layout
+
+block content
+	div.container
+		div.row
+			div.col-sm-10.col-md-10.col-md-offset-1.col-xs-10
+				h1.text-right.text-primary welcome back! 
+					div.start-wall
+						h3.text-right
+							span.label.label-primary student
+						h3.text-primary.text-right #{user.firstName} #{user.lastName}, how can i help you?
+						br
+						h4.text-left.black the information below is your homework information, you can submit your homework
+						br
+						table.table.table-hover.homework
+							tr
+								th teacher
+								th title
+								th deadline
+								th latest submission
+								th score
+								th content
+								th operation
+							each homework in homeworks
+								tr
+									td #{homework.teacher}
+									td #{homework.title}
+									td #{homework.deadline}
+									td 
+										if homework.latestSubmission == 'none'
+											button.btn-lg.btn.btn-default(disable) none
+										else
+											button.btn-lg.btn.btn-success(data-toggle='modal' data-target='#submission#{homework.id}') #{homework.latestSubmission}
+											div.modal.fade(id='submission#{homework.id}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+												div.modal-dialog
+													div.modal-content
+														div.modal-header
+															h3.text-center.text-primary latest submission：#{homework.title}
+														
+														div.modal-body.publish.center-block
+															div.form-group
+																h4.text-left deadline
+																input.form-control(readonly type='text' placeholder='#{homework.deadline}')
+															
+															div.form-group
+																h4.text-left content
+																textarea.form-control(name='content' rows='10' readonly placeholder='#{homework.mycontent}') 
+														div.modal-footer
+															button.btn.btn-warning.btn-margin.btn-lg(data-dismiss='modal') confirm
+											
+									td #{homework.score}
+									td 
+										button.btn-lg.btn.btn-info(data-toggle='modal' data-target='##{homework.id}') detail
+										div.modal.fade(id='#{homework.id}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+											div.modal-dialog
+												div.modal-content
+													div.modal-header
+														h3.text-center.text-primary #{homework.title}
+													div.modal-body.publish.center-block.bg-info
+														h4 content
+														p  #{homework.content}
+													div.modal-footer
+														button.btn.btn-warning.btn-margin.btn-lg(data-dismiss='modal') confirm
+														
+									td 
+										if homework.overdue
+											button.btn-lg.btn.btn-default(disable) overdue
+										else
+											button.btn-lg.btn.btn-success(data-toggle='modal' data-target='#on') submit
+											div#on.modal.fade(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+												div.modal-dialog
+													div.modal-content
+														div.modal-header
+															h3.text-center.text-primary submit homework
+														form(method='POST' action='/submit')
+															div.modal-body.publish.center-block
+																div.form-group
+																	h4.text-left title
+																	input.form-control(name='title' value='#{homework.title}' readonly type='text' placeholder='#{homework.title}')
+																div.form-group
+																	h4.text-left deadline
+																	input.form-control(readonly type='text' placeholder='#{homework.deadline}')
+																div.form-group
+																	h4.text-left content
+																	textarea.form-control(name='content' rows='10' placeholder='submit your content' required autofocus)
+															div.modal-footer
+																button.btn.btn-info.btn-margin.btn-lg(type='submit') submit
+																button.btn.btn-danger.btn-margin.btn-lg(data-dismiss='modal') close
+								
+				a.text-center(href="/signout") sign out
